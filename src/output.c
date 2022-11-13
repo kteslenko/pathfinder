@@ -33,3 +33,81 @@ void print_err(enum e_error error, void *data) {
             break;
     }
 }
+
+static void print_line() {
+    for (int i = 0; i < 40; i++) {
+        mx_printstr("=");
+    }
+    mx_printstr("\n");
+}
+
+static void print_route(t_graph *graph, t_list *path) {
+    mx_printstr("Route: ");
+
+    while (path != NULL) {
+        t_path_node *node = (t_path_node*)path->data;
+
+        if (node->distance != 0) {
+            mx_printstr(" -> ");
+        }
+        mx_printstr(graph->islands[node->island]);
+        path = path->next;
+    }
+}
+
+static void print_distance(t_graph *graph, t_list *path) {
+    mx_printstr("Distance: ");
+
+    while (path != NULL && path->next != NULL) {
+        t_path_node *node = (t_path_node*)path->data;
+        t_path_node *next = (t_path_node*)path->next->data;
+
+        if (node->distance != 0) {
+            mx_printstr(" + ");
+        }
+        mx_printint(next->distance - node->distance);
+        if (node->distance != 0 && path->next->next == NULL) {
+            mx_printstr(" = ");
+            mx_printint(next->distance);
+        }
+        path = path->next;
+    }
+}
+
+static void print_path(t_graph *graph, t_list *path, int start, int end) {    
+    print_line();
+    mx_printstr("Path: ");
+    mx_printstr(graph->islands[start]);
+    mx_printstr(" -> ");
+    mx_printstr(graph->islands[end]);
+    mx_printstr("\n");
+    print_route(graph, path);
+    mx_printstr("\n");
+    print_distance(graph, path);
+    mx_printstr("\n");
+    print_line();
+}
+
+static void print_paths_from(t_graph *graph, int start) {
+    t_path_node *nodes = path_search(graph, start);
+
+    for (int end = start + 1; end < graph->count; end++) {
+        t_list *paths = trace_all_paths(&nodes[end]);
+        t_list *current_path = paths;
+
+        while (current_path != NULL) {
+            t_list *path = (t_list*)current_path->data;
+            print_path(graph, path, 0, end);
+            mx_clear_list(&path);
+            current_path = current_path->next;
+        }
+        mx_clear_list(&paths);
+    }
+    clear_nodes(nodes, graph->count);
+}
+
+void print_all_paths(t_graph *graph) {
+    for (int i = 0; i < graph->count; i++) {
+        print_paths_from(graph, i);
+    }
+}

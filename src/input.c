@@ -25,7 +25,7 @@ bool file_empty(const char *name) {
     return bytes_read == 0;
 }
 
-int parse_count(int fd) {
+static int parse_count(int fd) {
     int count = 0;
     char *line = NULL;
     int result = mx_read_line(&line, 1, '\n', fd);
@@ -38,7 +38,7 @@ int parse_count(int fd) {
     return count;
 }
 
-bool validate_island(const char *island) {
+static bool validate_island(const char *island) {
     if (mx_strlen(island) == 0) {
         return false;
     }
@@ -52,7 +52,7 @@ bool validate_island(const char *island) {
     return true;
 }
 
-int parse_line(int fd, char **island1, char **island2, int *distance) {
+static int parse_line(int fd, char **island1, char **island2, int *distance) {
     char *distance_str = NULL;
     int result = mx_read_line(island1, 1, '-', fd);
 
@@ -87,7 +87,7 @@ int parse_line(int fd, char **island1, char **island2, int *distance) {
     return 1;
 }
 
-int insert_line(char *island1, char *island2, int distance, t_graph *graph) {
+static int insert_line(char *island1, char *island2, int distance, t_graph *graph) {
     int index1 = insert_or_find(graph, island1);
     int index2 = insert_or_find(graph, island2);
 

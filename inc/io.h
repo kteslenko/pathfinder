@@ -1,7 +1,7 @@
 #pragma once
 
-#include "limits.h"
-#include "graph.h"
+#include <limits.h>
+#include "path_search.h"
 
 enum e_error {
     FILE_DOES_NOT_EXIST,
@@ -16,3 +16,4 @@ void print_err(enum e_error, void *data);
 bool file_exists(const char *name);
 bool file_empty(const char *name);
 t_graph *parse_file(int fd);
+void print_all_paths(t_graph *graph);

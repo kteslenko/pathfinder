@@ -22,4 +22,7 @@ int main(int argc, char *argv[]) {
     if (graph == NULL) {
         return 0;
     }
+
+    print_all_paths(graph);
+    clear_graph(graph);
 }
