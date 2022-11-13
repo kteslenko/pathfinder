@@ -20,7 +20,7 @@ t_graph *new_graph(int capacity) {
 }
 
 void clear_graph(t_graph *graph) {
-    for (int i = 0; i < graph->count; i++) {
+    for (int i = 0; i < graph->capacity; i++) {
         mx_strdel(&graph->islands[i]);
         free(graph->bridges[i]);
     }
