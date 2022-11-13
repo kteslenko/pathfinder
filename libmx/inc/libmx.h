@@ -14,6 +14,7 @@ typedef struct s_list {
 void mx_printchar(char c);
 void mx_print_unicode(wchar_t c);
 void mx_printstr(const char *s);
+void mx_printerr(const char *s);
 void mx_print_strarr(char **arr, const char *delim);
 void mx_printint(int n);
 double mx_pow(double n, unsigned int pow);
@@ -21,11 +22,13 @@ int mx_sqrt(int x);
 char *mx_nbr_to_hex(unsigned long nbr);
 unsigned long mx_hex_to_nbr(const char *hex);
 char *mx_itoa(int number);
+int mx_atoi(const char *str, int *out);
 void mx_foreach(int *arr, int size, void (*f)(int));
 int mx_binary_search(char **arr, int size, const char *s, int *count);
 int mx_bubble_sort(char **arr, int size);
 int mx_quicksort(char **arr, int left, int right);
 bool mx_isspace(char c);
+bool mx_isalpha(int c);
 
 int mx_strlen(const char *s);
 void mx_swap_char(char *s1, char *s2);
@@ -71,3 +74,5 @@ void mx_pop_front(t_list **head);
 void mx_pop_back(t_list **head);
 int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
+void mx_foreach_list(t_list *list, void (*f)(t_list *node));
+void mx_clear_list(t_list **list);
