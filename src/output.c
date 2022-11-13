@@ -55,7 +55,7 @@ static void print_route(t_graph *graph, t_list *path) {
     }
 }
 
-static void print_distance(t_graph *graph, t_list *path) {
+static void print_distance(t_list *path) {
     mx_printstr("Distance: ");
 
     while (path != NULL && path->next != NULL) {
@@ -83,7 +83,7 @@ static void print_path(t_graph *graph, t_list *path, int start, int end) {
     mx_printstr("\n");
     print_route(graph, path);
     mx_printstr("\n");
-    print_distance(graph, path);
+    print_distance(path);
     mx_printstr("\n");
     print_line();
 }
@@ -97,7 +97,7 @@ static void print_paths_from(t_graph *graph, int start) {
 
         while (current_path != NULL) {
             t_list *path = (t_list*)current_path->data;
-            print_path(graph, path, 0, end);
+            print_path(graph, path, start, end);
             mx_clear_list(&path);
             current_path = current_path->next;
         }
