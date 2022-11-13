@@ -34,7 +34,7 @@ void print_err(enum e_error error, void *data) {
     }
 }
 
-static void print_line() {
+static void print_line(void) {
     for (int i = 0; i < 40; i++) {
         mx_printstr("=");
     }
