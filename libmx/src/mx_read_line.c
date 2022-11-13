@@ -22,24 +22,32 @@ int mx_read_line(char **lineptr, size_t buf_size, char delim, const int fd) {
     ssize_t result = -1;
 
     if (remainder != NULL) {
+        char *temp = NULL;
+
         str = split_on(remainder, delim, &remainder);
         total = mx_strlen(str);
-        str = mx_realloc(str, total + 1);
+        temp = str;
+        str = mx_strndup(str, total);
+        mx_strdel(&temp);
         if (remainder != NULL) {
             if (mx_strlen(remainder) == 0) {
                 mx_strdel(&remainder);
             }
             *lineptr = str;
+            mx_strdel(&buf);
             return total;
         }
     }
 
     while ((result = read(fd, buf, buf_size)) > 0) {
+        char *temp = NULL;
+
         buf[result] = '\0';
         split_on(buf, delim, &remainder);
         total += mx_strlen(buf);
-        str = mx_realloc(str, total + 1);
-        mx_strcat(str, buf);
+        temp = str;
+        str = mx_strjoin(str, buf);
+        mx_strdel(&temp);
         if (remainder != NULL) {
             if (mx_strlen(remainder) == 0) {
                 mx_strdel(&remainder);
